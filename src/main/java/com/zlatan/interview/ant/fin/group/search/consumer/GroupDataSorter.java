@@ -36,6 +36,9 @@ public interface GroupDataSorter<T extends GroupData> {
 
     /**
      * 完成排序, 不再接受新数据
+     *
+     * 危险: 并发情况下, 必须保证调用此方法的线程是最后一个排序线程;
+     *  否则, 可能出现其他排序线程的数据无法添加进来的问题.
      */
     void finish();
 

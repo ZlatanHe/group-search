@@ -15,15 +15,31 @@
         <lombok.version>1.16.10</lombok.version>
         <junit.version>4.12</junit.version>
         <mockito.version>1.9.5</mockito.version>
+        <powerMock-junit.version>1.7.4</powerMock-junit.version>
+        <powermock-api.version>1.6.5</powermock-api.version>
+        <common-logging.version>1.2</common-logging.version>
 	</properties>
 
 	<dependencies>
+
+        <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+            <version>${common-logging.version}</version>
+        </dependency>
 
         <!--lombok-->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <version>1.5.19.RELEASE</version>
+            <scope>test</scope>
         </dependency>
 
         <dependency>
@@ -40,14 +56,33 @@
             <scope>test</scope>
         </dependency>
 
-	</dependencies>
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-module-junit4</artifactId>
+            <version>${powerMock-junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-api-mockito</artifactId>
+            <version>${powermock-api.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+
+    </dependencies>
 
 	<build>
 		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
 		</plugins>
 	</build>
 

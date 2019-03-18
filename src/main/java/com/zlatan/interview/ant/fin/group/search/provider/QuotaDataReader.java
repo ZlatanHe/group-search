@@ -2,6 +2,7 @@ package com.zlatan.interview.ant.fin.group.search.provider;
 
 import com.zlatan.interview.ant.fin.group.search.domain.QuotaData;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 import java.io.*;
 import java.util.concurrent.BlockingQueue;
@@ -20,6 +21,7 @@ public class QuotaDataReader implements DataProvider<QuotaData> {
     /**
      * 这个文件的阅读任务是否已经被分派
      */
+    @Getter
     private boolean owned = false;
 
     /**
@@ -89,8 +91,10 @@ public class QuotaDataReader implements DataProvider<QuotaData> {
         try (FileReader fileReader = new FileReader(file);
              BufferedReader bufferedReader = new BufferedReader(fileReader)
         ) {
+            boolean continueToRead = true;
             String dataLine;
-            while ((dataLine = bufferedReader.readLine()) != null) {
+            while (continueToRead &&
+                    (dataLine = bufferedReader.readLine()) != null) {
                 try {
                     QuotaData data = QuotaData.build(dataLine);
                     dataQueue.add(data);
@@ -99,9 +103,11 @@ public class QuotaDataReader implements DataProvider<QuotaData> {
                     switch (illegalFormatPolicy) {
                         // 错误数据处理
                         case DISCARD_CURRENT_FILE:
-                            System.err.println("数据格式错误, 忽略当前文件: " + file.getName());
-                            return;
+                            System.err.println("数据格式错误, 忽略当前文件剩余数据: " + file.getName());
+                            continueToRead = false;
+                            break;
                         case DISCARD_CURRENT_LINE:
+                            System.err.println("数据格式错误, 忽略当前行: " + dataLine);
                             break;
                         case TERMINATE_THE_TASK:
                             System.err.println("数据格式错误, 任务中止");
@@ -115,7 +121,9 @@ public class QuotaDataReader implements DataProvider<QuotaData> {
             ie.printStackTrace();
         }
 
-        remainFileCounter.decrementAndGet();
+        if (remainFileCounter != null) {
+            remainFileCounter.decrementAndGet();
+        }
     }
 
     public void read() {
@@ -128,7 +136,7 @@ public class QuotaDataReader implements DataProvider<QuotaData> {
     @AllArgsConstructor
     public enum IllegalFormatPolicy {
 
-        DISCARD_CURRENT_FILE("忽略这个文件"),
+        DISCARD_CURRENT_FILE("忽略这个文件剩余的数据"),
         DISCARD_CURRENT_LINE("忽略这一行"), // 默认
         TERMINATE_THE_TASK("关闭整个任务(关闭进程)")
         ;

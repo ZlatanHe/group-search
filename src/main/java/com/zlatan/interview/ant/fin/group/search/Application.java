@@ -8,7 +8,8 @@ public class Application {
 		new GroupSearchTask()
                 .setDirPath("/Users/zlatan/workspace/interview/test")
                 .setTargetFilePath("/Users/zlatan/workspace/interview/test/result" + System.currentTimeMillis())
-                .setSorterThreadCount(4)
+                .setReaderThreadCount(10)
+                .setSorterThreadCount(1)
                 .start();
 	}
 

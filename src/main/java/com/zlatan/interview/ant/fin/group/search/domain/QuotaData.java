@@ -39,12 +39,12 @@ public class QuotaData extends GroupData implements Printable {
         try {
             quota = Float.parseFloat(cols[2]);
         } catch (RuntimeException e) {
-            throw new IllegalArgumentException("quota数据列格式错误: " + cols[3]);
+            throw new IllegalArgumentException("quota数据列格式错误: " + cols[2]);
         }
-        return new QuotaData(cols[0], cols[1], quota);
+        return new QuotaData(cols[0].trim(), cols[1].trim(), quota);
     }
 
-    private QuotaData(String id, String groupId, float quota) {
+    public QuotaData(String id, String groupId, float quota) {
         super(groupId);
         this.id = id;
         this.quota = quota;

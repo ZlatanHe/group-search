@@ -57,7 +57,7 @@ public class MavenWrapperDownloader {
         File baseDirectory = new File(args[0]);
         System.out.println("- Using base directory: " + baseDirectory.getAbsolutePath());
 
-        // If the maven-wrapper.properties exists, provider it and check if it contains a custom
+        // If the maven-wrapper.properties exists, com.zlatan.interview.ant.fin.group.search.provider it and check if it contains a custom
         // wrapperUrl parameter.
         File mavenWrapperPropertyFile = new File(baseDirectory, MAVEN_WRAPPER_PROPERTIES_PATH);
         String url = DEFAULT_DOWNLOAD_URL;
