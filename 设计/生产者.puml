@@ -1,0 +1,37 @@
+@startuml
+
+interface BlockingQueue<T> {
+}
+
+interface Runnable {
++ void run();
+}
+
+class QuotaData
+
+interface DataProvider {
++ void provide(BlockingQueue<T> dataQueue);
+}
+
+class QuotaDataReader {
+- file: File 文件
+- dataQueue: BlockingQueue<QuotaData> 数据阻塞队列
+- illegalFormatPolicy: IllegalFormatPolicy 非法数据处理策略
+- owned: volatile boolean 该文件阅读任务是否已被某线程持有
+- remainFileCounter: AtomicInteger 剩余未完成文件计数器
++ QuotaDataReader(File,BlockingQueue<QuotaData>,AtomicInteger)
++ QuotaDataReader(File,IllegalFormatPolicy,BlockingQueue<QuotaData>,AtomicInteger)
++ void provide(BlockingQueue<QuotaData> dataQueue);
++ void read();
+}
+
+class QuotaDataReadJob {
++ void run();
+}
+
+DataProvider <|.. QuotaDataReader
+QuotaData <.. QuotaDataReader: < 生产
+QuotaDataReader ..* QuotaDataReadJob: < 持有
+Runnable <|.. QuotaDataReadJob
+BlockingQueue <.. DataProvider: < 投递
+@enduml

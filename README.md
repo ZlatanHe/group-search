@@ -17,3 +17,9 @@ new GroupSearchTask()
                 .start();
 ```
 或参考`com.zlatan.interview.ant.fin.group.search.Application`
+
+## 设计
+### 生产者
+![avatar](设计/生产者.JPEG)
+### 消费者
+![avatar](设计/消费者.JPEG)

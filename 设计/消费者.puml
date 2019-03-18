@@ -1,0 +1,65 @@
+@startuml
+
+interface BlockingQueue<T> {
+}
+
+abstract class GroupData {
+- groupId: String
+}
+
+class QuotaData {
+- id: String
+- quota: float
+}
+
+interface Runnable {
++ void run()
+}
+
+interface DataConsumer<T> {
++ void consume(T data);
+}
+
+interface GroupDataSorter<T extends GroupData> {
++ void add(T data);
++ T findMin(String groupId);
++ List<T> listMinByGroup();
++ void finish();
++ boolean isFinished();
+}
+
+interface GroupDataSortConsumer<T extends GroupData> {
+}
+
+class ConcurrentQuotaDataSorter {
+- runState: AtomicInteger
+- processingDataCount: AtomicInteger
+- groupIdConstantPool: Map<String, String>
+- groupIdQueue: PriorityQueue<String>
+- minDataMap: ConcurrentHashMap<String, QuotaData>
++ ConcurrentQuotaDataSorter()
++ ConcurrentQuotaDataSorter(int): groupId队列初始大小
+}
+
+class GroupDataConsumerJob<T extends GroupData> {
+- activeJobCounter: AtomicInteger 活跃消费者线程计数器
+- consumer: GroupDataSortConsumer<T>  实际消费者（排序器）
+- dataQueue: BlockingQueue<T> 数据阻塞队列
+- readTimeoutMs: long 从阻塞队列中读取数据的超时时间
+- running: AtomicBoolean 作业状态
++ GroupDataConsumerJob(BlockingQueue<T>,GroupDataSortConsumer<T>,int)
++ GroupDataConsumerJob(BlockingQueue<T>,GroupDataSortConsumer<T>,long,int)
++ void signalNoInput(): 生产方通知该作业已经没有新数据产生了
+}
+
+GroupData <|-- QuotaData
+DataConsumer <|-- GroupDataSortConsumer
+GroupDataSorter <|-- GroupDataSortConsumer
+GroupDataSortConsumer <|.. ConcurrentQuotaDataSorter
+QuotaData <.. ConcurrentQuotaDataSorter: < 消费(排序)
+GroupData <.. GroupDataSorter: < 排序
+GroupData <.. GroupDataSortConsumer: < 消费(排序)
+Runnable <.. GroupDataConsumerJob
+GroupDataSortConsumer *.. GroupDataConsumerJob: < 依赖
+BlockingQueue <.. GroupDataConsumerJob: < 拉取数据
+@enduml
