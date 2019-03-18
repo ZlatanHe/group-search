@@ -1,5 +1,7 @@
 package com.zlatan.interview.ant.fin.group.search;
 
+import com.zlatan.interview.ant.fin.group.search.task.GroupSearchTask;
+
 public class Application {
 
 	public static void main(String[] args) {
