@@ -83,7 +83,7 @@ public final class GroupSearchTask {
             throw new NullPointerException("文件夹路径为空");
         }
         if (targetFilePath == null || targetFilePath.length() == 0) {
-            targetFilePath = DEFAULT_TARGET_FILE_PATH_PREFIX + System.currentTimeMillis() + ".txt";
+            targetFilePath = DEFAULT_TARGET_FILE_PATH_PREFIX + System.currentTimeMillis();
         }
         // 创建队列
         BlockingQueue<QuotaData> dataQueue = new LinkedBlockingQueue<>();
