@@ -20,6 +20,6 @@ new GroupSearchTask()
 
 ## 设计
 ### 生产者
-![avatar](设计/生产者.JPEG)
+![avatar](https://raw.githubusercontent.com/ZlatanHe/group-search/master/%E8%AE%BE%E8%AE%A1/%E7%94%9F%E4%BA%A7%E8%80%85.jpeg)
 ### 消费者
-![avatar](设计/消费者.JPEG)
+![avatar](https://raw.githubusercontent.com/ZlatanHe/group-search/master/%E8%AE%BE%E8%AE%A1/%E6%B6%88%E8%B4%B9%E8%80%85.jpeg)
