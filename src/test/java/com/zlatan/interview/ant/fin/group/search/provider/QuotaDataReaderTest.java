@@ -19,7 +19,7 @@ public class QuotaDataReaderTest {
         AtomicInteger atomicInteger = new AtomicInteger(1);
         BlockingQueue<QuotaData> dataQueue = new LinkedBlockingQueue<>();
         QuotaDataReader quotaDataReader = new QuotaDataReader(
-                new File("src/test/resources/ut-file-1.txt"),
+                new File("src/testData/resources/ut-file-1.txt"),
                 dataQueue,
                 atomicInteger
         );
@@ -38,7 +38,7 @@ public class QuotaDataReaderTest {
         AtomicInteger atomicInteger = new AtomicInteger(1);
         BlockingQueue<QuotaData> dataQueue = new LinkedBlockingQueue<>();
         QuotaDataReader quotaDataReader = new QuotaDataReader(
-                new File("src/test/resources/ut-file-1.txt"),
+                new File("src/testData/resources/ut-file-1.txt"),
                 QuotaDataReader.IllegalFormatPolicy.DISCARD_CURRENT_FILE,
                 dataQueue,
                 atomicInteger
